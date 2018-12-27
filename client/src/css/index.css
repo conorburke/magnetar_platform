@@ -1,0 +1,102 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	min-height: 100%;
+	font-family: sans-serif;
+	background-color: #65737e;
+	color: #f0f0f0;
+	/* background: linear-gradient(89deg, #FF5EDF 0%, #04C8DE 100%); */
+}
+
+#root,
+#router-container {
+	margin: 0;
+	height: 100%;
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+AppBar {
+	background-color: #343d46;
+}
+
+.component-container {
+	margin: 0;
+	height: 100%;
+	min-height: 100%;
+}
+
+.component-container {
+	display: flex;
+	flex-direction: column;
+}
+
+header {
+	flex: none;
+}
+
+footer {
+	flex: none;
+	/* position: fixed;
+	left: 0px;
+	bottom: 0px;
+	height: 48px;
+	width: 100%; */
+	background: #000;
+	padding: 20px;
+	/* text-align: right; */
+}
+
+.main-content {
+	padding-top: 64px;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	flex: auto;
+}
+
+.loader {
+	margin: auto;
+	margin-top: 15%;
+	margin-bottom: 100px;
+	border: 16px solid #bdc3c7;
+	width: 120px;
+	height: 120px;
+	border-top-color: #000;
+	border-bottom-color: #8b0000;
+	border-radius: 50%;
+	animation: coloredspin 4s linear infinite;
+}
+
+@keyframes coloredspin {
+	0% {
+		transform: rotate(0deg) scale(1);
+	}
+	50% {
+		transform: rotate(360deg) scale(1.15);
+	}
+	100% {
+		transform: rotate(720deg) scale(1);
+	}
+}
+
+@media only screen and (max-width: 600px) {
+	.main-content {
+		padding-top: 56px;
+		overflow-y: auto;
+		-webkit-overflow-scrolling: touch;
+		flex: auto;
+	}
+}
+
+@media only screen and (max-width: 720px) {
+	.landing-pictures {
+		flex-direction: column;
+	}
+	.component-container {
+		background-image: none !important;
+		background-color: #65737e;
+	}
+}
