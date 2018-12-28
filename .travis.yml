@@ -12,14 +12,12 @@ after_success:
   - docker build -t conorburke/magnetar-client ./client
   - docker build -t conorburke/magnetar-nginx ./nginx
   - docker build -t conorburke/magnetar-api ./api
-  - docker build -t conorburke/magnetar-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
   - docker push conorburke/magnetar-client
   - docker push conorburke/magnetar-nginx
   - docker push conorburke/magnetar-api
-  - docker push conorburke/magnetar-worker
 
 deploy:
   provider: elasticbeanstalk
