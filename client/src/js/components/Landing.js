@@ -97,6 +97,7 @@ class Landing extends Component {
               style={{
                 margin: "50px",
                 border: "5px solid black",
+                borderRadius: "20px",
                 maxWidth: "60%",
                 maxHeight: "400px"
               }}
