@@ -8,7 +8,7 @@ import React, { Component } from "react";
 import circularSaw from "../../images/circular-saw.jpg";
 import jigsaw from "../../images/jigsaw.jpg";
 import woodworking from "../../images/woodworking.jpg";
-import account from "../../images/account.png";
+import account from "../../images/account2.png";
 
 class Landing extends Component {
   constructor(props) {
@@ -30,9 +30,9 @@ class Landing extends Component {
   render() {
     return (
       <div className="main-content">
-        <div style={{ display: "flex", justifyContent: "center" }}>
+        {/* <div style={{ display: "flex", justifyContent: "center" }}>
           <h1>Magnetar</h1>
-        </div>
+        </div> */}
         <div style={{ display: "flex", flexDirection: "row" }}>
           <div
             style={{
