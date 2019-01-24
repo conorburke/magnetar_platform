@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt-nodejs');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
 const db = require('../db');
 
@@ -19,7 +20,8 @@ const handleSignin = (db, bcrypt) => (req, res) => {
 					.from('users')
 					.where('email', '=', email)
 					.then(user => {
-						res.json(user[0]);
+						user[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
+						return res.json(user[0]);
 					})
 					.catch(err => res.status(400).json('unable to get user'));
 			} else {
@@ -53,7 +55,8 @@ const handleRegister = (req, res, db, bcrypt) => {
 				.from('users')
 				.where({ email })
 				.then(response => {
-					res.status(200).json(response[0]);
+					response[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
+					return res.status(200).json(response[0]);
 				});
 		})
 		.catch(() =>
