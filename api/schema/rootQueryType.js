@@ -2,8 +2,10 @@ const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLList, GraphQLID, GraphQLNonNull } = graphql;
 
 const db = require('../db');
+const ClientRatingType = require('./types/clientRatingType');
 const DepotType = require('./types/depotType');
 const RentedToolType = require('./types/rentedToolType');
+const SellerRatingType = require('./types/sellerRatingType');
 const ToolType = require('./types/toolType');
 const ToolPictureType = require('./types/toolPictureType');
 const UserType = require('./types/userType');
@@ -28,6 +30,23 @@ const RootQuery = new GraphQLObjectType({
 					.then(res => res[0]);
 			}
 		},
+		clientRatings: {
+			type: new GraphQLList(ClientRatingType),
+			resolve() {
+				return db.select().from('client_ratings');
+			}
+		},
+		clientRating: {
+			type: ClientRatingType,
+			args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+			resolve(parentValue, { id }) {
+				return db
+					.select()
+					.from('client_ratings')
+					.where({ id: parseInt(id) })
+					.then(res => res[0]);
+			}
+		},
 		rentedTools: {
 			type: new GraphQLList(RentedToolType),
 			resolve() {
@@ -41,6 +60,23 @@ const RootQuery = new GraphQLObjectType({
 				return db
 					.select()
 					.from('rented_tools')
+					.where({ id: parseInt(id) })
+					.then(res => res[0]);
+			}
+		},
+		sellerRatings: {
+			type: new GraphQLList(SellerRatingType),
+			resolve() {
+				return db.select().from('seller_ratings');
+			}
+		},
+		sellerRating: {
+			type: SellerRatingType,
+			args: { id: { type: new GraphQLNonNull(GraphQLID) } },
+			resolve(parentValue, { id }) {
+				return db
+					.select()
+					.from('seller_ratings')
 					.where({ id: parseInt(id) })
 					.then(res => res[0]);
 			}

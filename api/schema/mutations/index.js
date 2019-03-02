@@ -8,8 +8,10 @@ const {
 } = graphql;
 
 const db = require('../../db');
+const ClientRatingType = require('../types/clientRatingType');
 const DepotType = require('../types/depotType');
 const RentedToolType = require('../types/rentedToolType');
+const SellerRatingType = require('../types/sellerRatingType');
 const ToolPictureType = require('../types/toolPictureType');
 const ToolType = require('../types/toolType');
 const UserType = require('../types/userType');
@@ -41,6 +43,21 @@ const mutations = new GraphQLObjectType({
 				});
 			}
 		},
+		addClientRating: {
+			type: ClientRatingType,
+			args: {
+				comment: { type: GraphQLString },
+				rating: { type: GraphQLInt },
+				owner_id: { type: GraphQLID }
+			},
+			resolve(parentValue, { comment, rating, owner_id }) {
+				return db('client_ratings').insert({
+					comment,
+					rating,
+					owner_id
+				});
+			}
+		},
 		addRentedTool: {
 			type: RentedToolType,
 			args: {
@@ -59,6 +76,21 @@ const mutations = new GraphQLObjectType({
 					end_date,
 					tool_id,
 					renter_id,
+					owner_id
+				});
+			}
+		},
+		addSellerRating: {
+			type: SellerRatingType,
+			args: {
+				comment: { type: GraphQLString },
+				rating: { type: GraphQLInt },
+				owner_id: { type: GraphQLID }
+			},
+			resolve(parentValue, { comment, rating, owner_id }) {
+				return db('seller_ratings').insert({
+					comment,
+					rating,
 					owner_id
 				});
 			}
