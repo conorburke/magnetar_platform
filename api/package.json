@@ -15,9 +15,9 @@
 	"author": "conorburke",
 	"license": "MIT",
 	"engines": {
-		"node": "10.8.0",
+		"node": "12.13.0",
 		"npm": "6.1.0",
-		"yarn": "1.9.4"
+		"yarn": "1.17.3"
 	},
 	"dependencies": {
 		"bcrypt-nodejs": "^0.0.3",
