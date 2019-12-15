@@ -6,14 +6,23 @@ import * as serviceWorker from "./serviceWorker";
 
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk";
+
+import reducers from "./reducers";
 
 const client = new ApolloClient({
   uri: "http://localhost:4000/oracle"
 });
 
+const store = createStore(reducers, applyMiddleware(reduxThunk));
+
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </ApolloProvider>,
   document.getElementById("root")
 );

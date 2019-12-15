@@ -23,7 +23,7 @@ const Header: React.FC = () => {
         style={{ backgroundColor: "transparent", color: "#f7f7f7" }}
       >
         <Toolbar style={{ display: "flex", justifyContent: "space-around" }}>
-          <Button
+          {/* <Button
             color="primary"
             component={React.forwardRef<HTMLAnchorElement, Partial<LinkProps>>(
               (props, ref) => <Link to={"/"} {...props} ref={ref as any} />
@@ -38,13 +38,25 @@ const Header: React.FC = () => {
             )}
           >
             Users
+          </Button> */}
+          <Button
+            color="primary"
+            component={props => <Link to={"/"} {...props} />}
+          >
+            Home
           </Button>
-          {/* <Button
+          <Button
             color="primary"
             component={props => <Link to={"/users"} {...props} />}
           >
             Users
-          </Button> */}
+          </Button>
+          <Button
+            color="primary"
+            component={props => <Link to={"/tools"} {...props} />}
+          >
+            Tools
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
