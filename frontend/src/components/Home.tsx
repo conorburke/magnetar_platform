@@ -15,7 +15,9 @@ import Container from '@material-ui/core/Container';
 import axios from 'axios';
 import querystring from 'querystring';
 import { Redirect } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { authorizeUser } from '../actions';
 import url from '../utils';
 import Copyright from './Copyright';
 
@@ -48,6 +50,8 @@ const Home: React.FC = () => {
   const [signedIn, setSignedIn] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(false);
 
+  const dispatch = useDispatch();
+
   const classes = useStyles();
 
   const handleRegister = (e: any) => {
@@ -74,6 +78,7 @@ const Home: React.FC = () => {
           sessionStorage.setItem('magnetar_token', data.token);
         }
         handleSetRegisteredChange();
+        dispatch(authorizeUser());
       })
       .catch(error => {
         console.log('error', error.request._response);
@@ -105,6 +110,7 @@ const Home: React.FC = () => {
           sessionStorage.setItem('magnetar_token', data.token);
         }
         handleSetSignedInChange();
+        dispatch(authorizeUser());
       })
       .catch(error => {
         console.log('error', error);

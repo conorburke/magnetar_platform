@@ -25,6 +25,9 @@ import {
   Theme,
   createStyles
 } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+
+import { unauthorizeUser } from '../actions';
 
 const drawerWidth = 200;
 
@@ -68,13 +71,18 @@ interface ResponsiveDrawerProps {
    * You won't need it on your project.
    */
   container?: Element;
+  signedIn?: Boolean;
 }
 
-export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
-  const { container } = props;
+const SideDrawer: React.FC<ResponsiveDrawerProps> = (
+  props: ResponsiveDrawerProps
+) => {
+  const { container, signedIn } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -83,6 +91,7 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
   function handleLogout() {
     sessionStorage.removeItem('magnetar_token');
     localStorage.removeItem('magnetar_token');
+    dispatch(unauthorizeUser());
   }
 
   const drawer = (
@@ -90,7 +99,12 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem button component={Link} to="/profile">
+        <ListItem
+          button
+          component={Link}
+          to={signedIn ? '/profile' : '/unauthorized'}
+        >
+          {/* <ListItem button component={Link} to={"/profile"}> */}
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
@@ -127,33 +141,12 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
           <ListItemIcon>
             <EmojiPeopleIcon />
           </ListItemIcon>
-          <ListItemText primary="Logout" />
+          {signedIn ? (
+            <ListItemText primary="Log Out" />
+          ) : (
+            <ListItemText primary="Log In" />
+          )}
         </ListItem>
-
-        {/* <Button
-            color="primary"
-            component={props => <Link to={"/"} {...props} />}
-          >
-            Home
-          </Button>
-          <Button
-            color="primary"
-            component={props => <Link to={"/users"} {...props} />}
-          >
-            Users
-          </Button>
-          <Button
-            color="primary"
-            component={props => <Link to={"/tools"} {...props} />}
-          >
-            Tools
-          </Button>
-          <Button
-            color="primary"
-            onClick={handleLogout}
-          >
-            Logout
-          </Button> */}
       </List>
     </div>
   );
@@ -210,4 +203,6 @@ export default function ResponsiveDrawer(props: ResponsiveDrawerProps) {
       </nav>
     </div>
   );
-}
+};
+
+export default SideDrawer;

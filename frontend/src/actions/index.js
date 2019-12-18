@@ -1,24 +1,25 @@
 // import { AsyncStorage } from 'react-native';
-import axios from "axios";
+import axios from 'axios';
 
 import {
-  AUTH_USER,
+  // AUTH_USER,
+  AUTHORIZE_USER,
   CREATE_PROFILE,
-  DELETE_TOOL,
+  // DELETE_TOOL,
   FETCH_TOOL,
   FETCH_TOOLS,
   FETCH_USER_TOOLS,
   FETCH_USERS,
   FILTER_TOOLS,
   FILTER_USERS,
-  SET_PHONE_NUMBER,
+  // SET_PHONE_NUMBER,
   SET_EMAIL,
   SET_PROFILE,
   SET_RENT_END_DATE,
   SET_RENT_START_DATE
-} from "./types";
-import url from "../utils";
-import { profileQuery, toolQuery, toolsQuery, usersQuery } from "./queries";
+} from './types';
+import url from '../utils';
+import { profileQuery, toolQuery, toolsQuery, usersQuery } from './queries';
 
 export const setEmail = email => {
   return { type: SET_EMAIL, payload: email };
@@ -62,21 +63,50 @@ export const fetchProfile = profileId => {
   };
 };
 
-export const authUser = token => {
+export const authorizeUser = () => {
+  let token = localStorage.getItem('magnetar_token');
+  if (!token) {
+    token = sessionStorage.getItem('magnetar_token');
+  }
+
   return function(dispatch) {
     if (token) {
-      AsyncStorage.setItem("auth_token", token);
-      dispatch({ type: AUTH_USER, payload: token });
-    } else {
-      AsyncStorage.getItem("auth_token").then(res => {
-        if (res) {
-          dispatch({ type: AUTH_USER, payload: res });
-        } else {
-        }
-      });
+      axios
+        .post(`${url.api}/verify`, token, { headers: { Authorization: token } })
+        .then(res => {
+          if (res.status === 200) {
+            dispatch({ type: AUTHORIZE_USER, payload: true });
+          }
+        })
+        .catch(err => console.log(err));
     }
   };
 };
+
+export const unauthorizeUser = () => {
+  return function(dispatch) {
+    sessionStorage.removeItem('magnetar_token');
+    localStorage.removeItem('magnetar_token');
+    dispatch({ type: AUTHORIZE_USER, payload: false });
+  };
+};
+
+// for legacy RN app
+// export const authUser = token => {
+//   return function(dispatch) {
+//     if (token) {
+//       AsyncStorage.setItem("auth_token", token);
+//       dispatch({ type: AUTH_USER, payload: token });
+//     } else {
+//       AsyncStorage.getItem("auth_token").then(res => {
+//         if (res) {
+//           dispatch({ type: AUTH_USER, payload: res });
+//         } else {
+//         }
+//       });
+//     }
+//   };
+// };
 
 export const filterTools = text => {
   return { type: FILTER_TOOLS, payload: text };
@@ -90,7 +120,7 @@ export const deleteTool = id => {
   return function(dispatch) {
     axios
       .delete(`${url.api}/tools/${id}`)
-      .then(res => console.log("delete response", res))
+      .then(res => console.log('delete response', res))
       .then(() =>
         axios
           .get(`${url.api}/tools`)
@@ -100,7 +130,7 @@ export const deleteTool = id => {
 };
 
 export const createProfile = profile => {
-  console.log("token 3", profile);
+  console.log('token 3', profile);
   return function(dispatch) {
     // AsyncStorage.setItem('auth_token', profile.token.toString());
     dispatch({ type: CREATE_PROFILE, payload: profile });
