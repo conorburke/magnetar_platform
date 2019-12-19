@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.icons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.icon-container {
+  margin: 0;
+  margin-top: 5%;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.fa-github:hover {
+  color: #242923;
+}
+
+.fab {
+  color: black;
+  margin: 0px 10px 0px 10px;
+}

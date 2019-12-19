@@ -21,7 +21,8 @@ const handleSignin = (db, bcrypt) => (req, res) => {
 					.where('email', '=', email)
 					.then(user => {
 						user[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
-						return res.json(user[0]);
+						// return res.json(user[0]);
+						return res.json({ token: user[0].token });
 					})
 					.catch(err => res.status(400).json('unable to get user'));
 			} else {
@@ -56,7 +57,8 @@ const handleRegister = (req, res, db, bcrypt) => {
 				.where({ email })
 				.then(response => {
 					response[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
-					return res.status(200).json(response[0]);
+					// return res.status(200).json(response[0]);
+					return res.status(200).json({ token: response[0].token });
 				});
 		})
 		.catch(() =>
@@ -64,6 +66,18 @@ const handleRegister = (req, res, db, bcrypt) => {
 				.status(400)
 				.json(`unable to register.  do you already have an account?`)
 		);
+};
+
+const verifyToken = (req, res) => {
+	const { authorization } = req.headers;
+	console.log(authorization);
+	jwt.verify(authorization, process.env.JWT_SECRET, err => {
+		if (!err) {
+			res.status(200).send('authorized');
+		} else {
+			res.status(401).send('unauthorized');
+		}
+	});
 };
 
 module.exports = app => {
@@ -99,5 +113,8 @@ module.exports = app => {
 	app.post('/signin', handleSignin(db, bcrypt));
 	app.post('/register', (req, res) => {
 		handleRegister(req, res, db, bcrypt);
+	});
+	app.post('/verify', (req, res) => {
+		verifyToken(req, res);
 	});
 };

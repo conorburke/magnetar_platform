@@ -1,0 +1,54 @@
+version: '3'
+services:
+  postgres:
+    build: ./db
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - '8080:80'
+  chat:
+    restart: always
+    build: ./chat
+    volumes:
+      - ./chat:/go/src/app  
+    ports:
+      - '9000:9000'  
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./api
+    volumes:
+      - /app/node_modules
+      - ./api:/app
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - PORT=4000
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - COOKIE_SECRET=${COOKIE_SECRET}
+    ports:
+      - 4000:4000
+  # client:
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #     context: ./client
+  #   volumes:
+  #     - /app/node_modules
+  #     - ./client:/app
+  frontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./frontend
+    depends_on: 
+      - api
+    links:
+      - api
+    volumes:
+      - /app/node_modules
+      - ./frontend:/app
