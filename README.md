@@ -2,7 +2,7 @@
 
 # Magnetar Platform
 
-Magnetear is a tool renting platform with a GraphQL API / PostgreSQL backend and PWA frontend written in React (TypeScript). Load balancing is accomplished through NGINX. It is hosted on AWS.
+Magnetar is a tool renting platform with a GraphQL API / PostgreSQL backend and PWA frontend written in React (TypeScript). Load balancing is accomplished through NGINX. It is hosted on AWS.
 
 ![alt text](screenshot.png "Magnetar")
 
