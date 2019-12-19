@@ -2,9 +2,9 @@
   "AWSEBDockerrunVersion": 2,
   "containerDefinitions": [
     {
-      "name": "client",
-      "image": "conorburke/magnetar-client",
-      "hostname": "client",
+      "name": "frontend",
+      "image": "conorburke/magnetar-frontend",
+      "hostname": "frontend",
       "essential": false,
       "memory": 128
     },
@@ -13,6 +13,7 @@
       "image": "conorburke/magnetar-api",
       "hostname": "api",
       "essential": false,
+      "links": ["postgres"],
       "memory": 128
     },
     {
@@ -26,7 +27,14 @@
           "containerPort": 80
         }
       ],
-      "links": ["client", "api"],
+      "links": ["frontend", "api"],
+      "memory": 128
+    },
+    {
+      "name": "postgres",
+      "image": "conorburke/magnetar-postgres",
+      "hostname": "postgres",
+      "essential": false,
       "memory": 128
     }
   ]

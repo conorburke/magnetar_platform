@@ -9,15 +9,19 @@ script:
   - docker run conorburke/magnetar-test npm test -- --coverage
 
 after_success:
-  - docker build -t conorburke/magnetar-client ./client
+  # - docker build -t conorburke/magnetar-client ./client
   - docker build -t conorburke/magnetar-nginx ./nginx
   - docker build -t conorburke/magnetar-api ./api
+  - docker build -t conorburke/magnetar-frontend ./frontend
+  - docker build -t conorburke/magnetar-postgres ./db
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push conorburke/magnetar-client
+  # - docker push conorburke/magnetar-client
   - docker push conorburke/magnetar-nginx
   - docker push conorburke/magnetar-api
+  - docker push conorburke/magnetar-frontend
+  - docker push conorburke/magnetar-postgres
 
 deploy:
   provider: elasticbeanstalk
