@@ -13,12 +13,12 @@ import About from './components/About';
 import Header from './components/Header';
 import Home from './components/Home';
 import Users from './components/Users';
-import Tools from './components/Tools';
 import Profile from './components/Profile';
 import SideDrawer from './components/Drawer';
 import Messages from './components/Messages';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthError from './components/AuthError';
+import ToolsScreen from './components/ToolsScreen';
 
 const theme = createMuiTheme({
   palette: {
@@ -68,7 +68,7 @@ const App: React.FC = () => {
             <ProtectedRoute
               exact={true}
               isAuthenticated={signedIn}
-              component={Tools}
+              component={ToolsScreen}
               restrictedPath="/tools"
               authenticationPath="/unauthorized"
             />

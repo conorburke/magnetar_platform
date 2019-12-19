@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Route, RouteProps, Redirect } from 'react-router';
+import { Route, RouteProps } from 'react-router';
 import AuthError from './AuthError';
 
 interface ProtectedRouteProps extends RouteProps {

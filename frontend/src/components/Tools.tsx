@@ -1,44 +1,79 @@
-import React from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
+import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
-const tools = gql`
-  {
-    tools {
-      id
-      title
-      category
-      description
-      price
-      depot {
-        id
-        owner_id
-        owner {
-          id
-          first_name
-          last_name
-        }
+import ToolCard from './ToolCard';
+import { tool } from '../types';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      '& > *': {
+        margin: theme.spacing(1),
+        width: 400
       }
     }
+  })
+);
+
+interface ToolsProps {
+  data: Array<tool>;
+}
+
+const Tools: React.FC<ToolsProps> = props => {
+  const [toolType, setToolType] = React.useState('');
+  const classes = useStyles();
+
+  const handleSetToolTypeChange = React.useCallback(e => {
+    setToolType(e.target.value);
+  }, []);
+
+  function filterTools(input: string, data: tool) {
+    if (toolType === '') {
+      return true;
+    }
+    input = input.toLowerCase().trim();
+    const title = data.title.toLowerCase();
+    const category = data.category.toLowerCase();
+    const description = data.description.toLowerCase();
+
+    if (
+      title.includes(input) ||
+      category.includes(input) ||
+      description.includes(input)
+    ) {
+      return true;
+    }
+    return false;
   }
-`;
-
-const Tools: React.FC = () => {
-  const { loading, error, data } = useQuery(tools);
-
-  console.log("data", data);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
 
   return (
-    <header className="App-header">
-      {data.tools.map((tool: any) => (
-        <div key={tool.id}>
-          <p>{tool.title}</p>
-        </div>
-      ))}
-    </header>
+    <div>
+      <h1>Tools</h1>
+      <form className={classes.root} noValidate autoComplete="off">
+        <TextField
+          id="outlined-basic"
+          variant="outlined"
+          label="Select-Type"
+          value={toolType}
+          onChange={handleSetToolTypeChange}
+        />
+      </form>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          flexWrap: 'wrap'
+        }}
+      >
+        {props.data.map((tool: any) => {
+          if (filterTools(toolType, tool)) {
+            return <ToolCard key={tool.id} data={tool} />;
+          }
+          return null;
+        })}
+      </div>
+    </div>
   );
 };
 
