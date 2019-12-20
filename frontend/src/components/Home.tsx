@@ -38,8 +38,32 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  error: {
+    backgroundColor: 'red',
+    opacity: 0.7,
+    padding: '5px',
+    borderRadius: '10px'
+  },
+  errorHide: {
+    padding: '0px'
   }
 }));
+
+function mapErrors(err: string) {
+  switch (err) {
+    case '"wrong credentials"':
+    case '"incorrect form submission"':
+      err = 'Invalid Username or Password';
+      break;
+    case '"unable to register.  do you already have an account?"':
+      err = 'Email already exists';
+      break;
+    default:
+      return 'Log In Error';
+  }
+  return err;
+}
 
 const Home: React.FC = () => {
   const [email, setEmail] = React.useState('');
@@ -49,6 +73,7 @@ const Home: React.FC = () => {
   const [registered, setRegistered] = React.useState(false);
   const [signedIn, setSignedIn] = React.useState(false);
   const [rememberMe, setRememberMe] = React.useState(false);
+  const [errors, setErrors] = React.useState('');
 
   const dispatch = useDispatch();
 
@@ -56,6 +81,11 @@ const Home: React.FC = () => {
 
   const handleRegister = (e: any) => {
     e.preventDefault();
+    setErrors('');
+    if (password !== confirmPassword) {
+      setErrors('Passwords do not match');
+      return;
+    }
     axios
       .post(
         `${url.api}/register`,
@@ -81,13 +111,14 @@ const Home: React.FC = () => {
         dispatch(authorizeUser());
       })
       .catch(error => {
-        console.log('error', error.request._response);
-        alert(`error: ${error}`);
+        console.log('error', error.request.response);
+        setErrors(mapErrors(error.request.response));
       });
   };
 
   const handleSignin = (e: any) => {
     e.preventDefault();
+    setErrors('');
     axios
       .post(
         `${url.api}/signin`,
@@ -114,6 +145,7 @@ const Home: React.FC = () => {
       })
       .catch(error => {
         console.log('error', error);
+        setErrors(mapErrors(error.request.response));
       });
   };
 
@@ -176,11 +208,7 @@ const Home: React.FC = () => {
       .catch(err => console.log(err));
   }
 
-  if (signedIn) {
-    return <Redirect to="/profile" />;
-  }
-
-  if (registered) {
+  if (signedIn || registered) {
     return <Redirect to="/profile" />;
   }
 
@@ -200,6 +228,13 @@ const Home: React.FC = () => {
             Register
           </Typography>
         )}
+        <Typography
+          component="h6"
+          variant="h6"
+          className={errors ? classes.error : classes.errorHide}
+        >
+          {errors}
+        </Typography>
         <form
           className={classes.form}
           noValidate
