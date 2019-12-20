@@ -22,4 +22,4 @@ yarn-error.log*
 
 # docker-compose.yml
 
-db/magnetardev.sql
+# db/magnetardev.sql
