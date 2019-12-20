@@ -1,7 +1,7 @@
-FROM node:alpine as builder
+FROM node:12.14.0 as builder
 WORKDIR '/app'
 COPY ./package.json ./
-RUN npm install -g yarn
+# RUN npm install -g yarn@1.21.1
 RUN yarn install
 COPY . .
 RUN yarn build
