@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
 import ToolCard from './ToolCard';
 import { tool } from '../types';
@@ -49,12 +50,14 @@ const Tools: React.FC<ToolsProps> = props => {
 
   return (
     <div>
-      <h1>Tools</h1>
+      <Typography variant="h3" component="h3" gutterBottom>
+        Tools
+      </Typography>
       <form className={classes.root} noValidate autoComplete="off">
         <TextField
           id="outlined-basic"
           variant="outlined"
-          label="Select-Type"
+          label="Select Type"
           value={toolType}
           onChange={handleSetToolTypeChange}
         />

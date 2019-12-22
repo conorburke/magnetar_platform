@@ -7,7 +7,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import deepOrange from '@material-ui/core/colors/deepOrange';
 import grey from '@material-ui/core/colors/grey';
 import { useDispatch, useSelector } from 'react-redux';
-import { authorizeUser } from './actions';
+import { authorizeUser, fetchProfile } from './actions';
 
 import About from './components/About';
 import Header from './components/Header';
@@ -19,6 +19,11 @@ import Messages from './components/Messages';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthError from './components/AuthError';
 import ToolsScreen from './components/ToolsScreen';
+import MyDepots from './components/MyDepots';
+import MyTools from './components/MyTools';
+import CreateDepot from './components/CreateDepot';
+import CreateTool from './components/CreateTool';
+import UpdateProfile from './components/UpdateProfile';
 
 const theme = createMuiTheme({
   palette: {
@@ -36,6 +41,15 @@ const App: React.FC = () => {
     // console.log(sessionStorage.getItem('magnetar_token'))
     return state.authorized;
   });
+
+  if (signedIn) {
+    let magnetarId =
+      localStorage.getItem('magnetar_id') ||
+      sessionStorage.getItem('magnetar_id');
+    if (magnetarId) {
+      dispatch(fetchProfile(magnetarId));
+    }
+  }
 
   console.log('app signedIn', signedIn);
 
@@ -61,6 +75,13 @@ const App: React.FC = () => {
             <ProtectedRoute
               exact={true}
               isAuthenticated={signedIn}
+              component={UpdateProfile}
+              restrictedPath="/updateprofile"
+              authenticationPath="/unauthorized"
+            />
+            <ProtectedRoute
+              exact={true}
+              isAuthenticated={signedIn}
               component={Users}
               restrictedPath="/users"
               authenticationPath="/unauthorized"
@@ -79,7 +100,34 @@ const App: React.FC = () => {
               restrictedPath="/messages"
               authenticationPath="/unauthorized"
             />
-
+            <ProtectedRoute
+              exact={true}
+              isAuthenticated={signedIn}
+              component={MyDepots}
+              restrictedPath="/mydepots"
+              authenticationPath="/unauthorized"
+            />
+            <ProtectedRoute
+              exact={true}
+              isAuthenticated={signedIn}
+              component={MyTools}
+              restrictedPath="/mytools"
+              authenticationPath="/unauthorized"
+            />
+            <ProtectedRoute
+              exact={true}
+              isAuthenticated={signedIn}
+              component={CreateDepot}
+              restrictedPath="/createdepot"
+              authenticationPath="/unauthorized"
+            />
+            <ProtectedRoute
+              exact={true}
+              isAuthenticated={signedIn}
+              component={CreateTool}
+              restrictedPath="/createtool"
+              authenticationPath="/unauthorized"
+            />
             <Route exact path="/about" component={About} />
             <Route exact path="/unauthorized" component={AuthError} />
           </div>

@@ -1,7 +1,12 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 const Messages: React.FC = () => {
-  return <div>Messages</div>;
+  return (
+    <Typography variant="h3" component="h3" gutterBottom>
+      Messages
+    </Typography>
+  );
 };
 
 export default Messages;

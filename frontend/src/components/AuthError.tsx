@@ -1,13 +1,17 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import Typography from '@material-ui/core/Typography';
 
 const AuthError: React.FC = () => {
   return (
     <div>
-      <div style={{ marginTop: '20px' }}>
-        AuthError. You must be logged in to view this page.
-      </div>
+      <Typography variant="h3" component="h3" gutterBottom>
+        Authentication Error
+      </Typography>
+      <Typography component="p" style={{ margin: '5px' }}>
+        You must be logged in to view this page.
+      </Typography>
       <Button
         component={Link}
         to="/"

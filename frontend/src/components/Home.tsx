@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { authorizeUser } from '../actions';
 import url from '../utils';
 import Copyright from './Copyright';
+import icon from '../images/blacksmith.png';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,6 +32,12 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
+  },
+  icon: {
+    width: theme.spacing(13),
+    height: theme.spacing(13),
+    border: '1px solid black',
+    padding: '1%'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -104,8 +111,10 @@ const Home: React.FC = () => {
         console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
+          localStorage.setItem('magnetar_id', data.id);
         } else {
           sessionStorage.setItem('magnetar_token', data.token);
+          sessionStorage.setItem('magnetar_id', data.id);
         }
         handleSetRegisteredChange();
         dispatch(authorizeUser());
@@ -137,8 +146,10 @@ const Home: React.FC = () => {
         console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
+          localStorage.setItem('magnetar_id', data.id);
         } else {
           sessionStorage.setItem('magnetar_token', data.token);
+          sessionStorage.setItem('magnetar_id', data.id);
         }
         handleSetSignedInChange();
         dispatch(authorizeUser());
@@ -216,9 +227,10 @@ const Home: React.FC = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <Avatar alt="icon" src={icon} className={classes.icon} />
         {exists ? (
           <Typography component="h1" variant="h5">
             Sign In

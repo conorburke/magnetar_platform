@@ -62,11 +62,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ data }: { data: tool }) => {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          <a
-            href="http://magnetar-env.pjsnaganrf.us-east-2.elasticbeanstalk.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="#" rel="noopener noreferrer">
             Details
           </a>
         </Button>

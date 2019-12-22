@@ -20,9 +20,14 @@ const handleSignin = (db, bcrypt) => (req, res) => {
 					.from('users')
 					.where('email', '=', email)
 					.then(user => {
-						user[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
+						user = user[0];
+						// initially only signed with the email
+						user.token = jwt.sign(
+							{ id: user.id, email },
+							process.env.JWT_SECRET
+						);
 						// return res.json(user[0]);
-						return res.json({ token: user[0].token });
+						return res.json({ token: user.token, id: user.id });
 					})
 					.catch(err => res.status(400).json('unable to get user'));
 			} else {
@@ -56,9 +61,15 @@ const handleRegister = (req, res, db, bcrypt) => {
 				.from('users')
 				.where({ email })
 				.then(response => {
-					response[0].token = jwt.sign({ email }, process.env.JWT_SECRET);
+					// initially only signed with the email
+					response[0].token = jwt.sign(
+						{ id: response[0].id, email },
+						process.env.JWT_SECRET
+					);
 					// return res.status(200).json(response[0]);
-					return res.status(200).json({ token: response[0].token });
+					return res
+						.status(200)
+						.json({ token: response[0].token, id: response[0].id });
 				});
 		})
 		.catch(() =>

@@ -1,12 +1,12 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 
-const About: React.FC = () => {
+const MyDepots: React.FC = () => {
   return (
     <Typography variant="h3" component="h3" gutterBottom>
-      About
+      My Depots
     </Typography>
   );
 };
 
-export default About;
+export default MyDepots;

@@ -1,4 +1,5 @@
 import React from 'react';
+import AddIcon from '@material-ui/icons/Add';
 import AppBar from '@material-ui/core/AppBar';
 import BuildIcon from '@material-ui/icons/Build';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,6 +18,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MessageIcon from '@material-ui/icons/Message';
 import MenuIcon from '@material-ui/icons/Menu';
 import PersonIcon from '@material-ui/icons/Person';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import StoreIcon from '@material-ui/icons/Store';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {
@@ -99,16 +102,24 @@ const SideDrawer: React.FC<ResponsiveDrawerProps> = (
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        <ListItem
-          button
-          component={Link}
-          to={signedIn ? '/profile' : '/unauthorized'}
-        >
-          {/* <ListItem button component={Link} to={"/profile"}> */}
+        <ListItem button component={Link} to="/tools">
+          <ListItemIcon>
+            <BuildIcon />
+          </ListItemIcon>
+          <ListItemText primary="Find Tools" />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="/profile">
           <ListItemIcon>
             <PersonIcon />
           </ListItemIcon>
           <ListItemText primary="Profile" />
+        </ListItem>
+        <ListItem button component={Link} to="/updateprofile">
+          <ListItemIcon>
+            <PersonAddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Update Profile" />
         </ListItem>
         <ListItem button component={Link} to="/messages">
           <ListItemIcon>
@@ -116,19 +127,37 @@ const SideDrawer: React.FC<ResponsiveDrawerProps> = (
           </ListItemIcon>
           <ListItemText primary="Messages" />
         </ListItem>
-        <Divider />
-        <ListItem button component={Link} to="/tools">
+        <ListItem button component={Link} to="/mydepots">
+          <ListItemIcon>
+            <StoreIcon />
+          </ListItemIcon>
+          <ListItemText primary="My Depots" />
+        </ListItem>
+        <ListItem button component={Link} to="/createdepot">
+          <ListItemIcon>
+            <AddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Create Depot" />
+        </ListItem>
+        <ListItem button component={Link} to="/mytools">
           <ListItemIcon>
             <BuildIcon />
           </ListItemIcon>
-          <ListItemText primary="Tools" />
+          <ListItemText primary="My Tools" />
         </ListItem>
-        <ListItem button component={Link} to="/users">
+        <ListItem button component={Link} to="/createtool">
+          <ListItemIcon>
+            <AddIcon />
+          </ListItemIcon>
+          <ListItemText primary="Create Tool" />
+        </ListItem>
+        {/* <Divider /> */}
+        {/* <ListItem button component={Link} to="/users">
           <ListItemIcon>
             <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Users" />
-        </ListItem>
+        </ListItem> */}
         <Divider />
         <ListItem button component={Link} to="/about">
           <ListItemIcon>
