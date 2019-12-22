@@ -86,10 +86,13 @@ const UpdateProfile: React.FC = () => {
       .then(() => {
         dispatch(
           createProfile({
-            first_name: firstName || profile.first_name,
-            last_name: lastName || profile.last_name,
-            email: profile.email,
-            phone_number: phoneNumber || profile.phone_number
+            ...profile,
+            ...{
+              first_name: firstName || profile.first_name,
+              last_name: lastName || profile.last_name,
+              email: profile.email,
+              phone_number: phoneNumber || profile.phone_number
+            }
           })
         );
         setUpdated(true);

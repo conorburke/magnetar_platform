@@ -62,9 +62,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ data }: { data: tool }) => {
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          <a href="#" rel="noopener noreferrer">
-            Details
-          </a>
+          Details
         </Button>
       </CardActions>
     </Card>

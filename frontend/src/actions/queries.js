@@ -141,6 +141,14 @@ export const profileQuery = `
         start_date
         end_date
       }
+      clientRatings {
+        id
+        rating
+      }
+      sellerRatings {
+        id
+        rating
+      }
     }
   }
 `;
