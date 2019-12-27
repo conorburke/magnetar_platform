@@ -9,13 +9,13 @@ services:
       context: ./nginx
     ports:
       - '8080:80'
-  chat:
-    restart: always
-    build: ./chat
-    volumes:
-      - ./chat:/go/src/app  
-    ports:
-      - '9000:9000'  
+  # chat:
+  #   restart: always
+  #   build: ./chat
+  #   volumes:
+  #     - ./chat:/go/src/app  
+  #   ports:
+  #     - '9000:9000'  
   api:
     build:
       dockerfile: Dockerfile.dev

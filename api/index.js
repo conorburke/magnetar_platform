@@ -41,6 +41,7 @@ app.use(passport.session());
 
 require('./routes/authRoutes')(app);
 require('./routes/paymentRoutes')(app);
+require('./routes/createToolRoute')(app);
 
 if (process.env.NODE_ENV === 'production') {
 	//express will serve up production assets

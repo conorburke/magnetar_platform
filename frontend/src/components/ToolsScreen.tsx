@@ -1,6 +1,6 @@
 import React from 'react';
 import { gql } from 'apollo-boost';
-import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { useSubscription } from '@apollo/react-hooks';
 
 import Tools from './Tools';
 
@@ -33,8 +33,6 @@ const tools = gql`
 const ToolsScreen: React.FC = () => {
   // const { loading, error, data } = useQuery(tools);
   const { loading, error, data } = useSubscription(tools);
-
-  console.log('data', data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;

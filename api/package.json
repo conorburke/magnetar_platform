@@ -14,12 +14,8 @@
 	},
 	"author": "conorburke",
 	"license": "MIT",
-	"engines": {
-		"node": "12.13.0",
-		"npm": "6.1.0",
-		"yarn": "1.17.3"
-	},
 	"dependencies": {
+		"aws-sdk": "^2.596.0",
 		"bcrypt-nodejs": "^0.0.3",
 		"body-parser": "^1.18.2",
 		"concurrently": "^3.6.0",
@@ -31,6 +27,7 @@
 		"graphql": "^0.13.2",
 		"jsonwebtoken": "^8.4.0",
 		"knex": "^0.15.0",
+		"multer": "^1.4.2",
 		"passport": "^0.4.0",
 		"passport-google-oauth20": "^1.0.0",
 		"pg": "^7.4.3",

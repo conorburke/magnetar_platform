@@ -1,8 +1,8 @@
-import React from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from "@apollo/react-hooks";
-
-import { user } from "../types";
+import React from 'react';
+import { gql } from 'apollo-boost';
+import { useQuery } from '@apollo/react-hooks';
+// eslint-disable-next-line
+import { user } from '../types';
 
 const users = gql`
   query {
@@ -22,7 +22,7 @@ const users = gql`
 const Users: React.FC = () => {
   const { loading, error, data } = useQuery(users);
 
-  console.log("data", data);
+  console.log('data', data);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;

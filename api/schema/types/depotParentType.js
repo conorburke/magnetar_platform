@@ -17,7 +17,6 @@ const DepotParentType = new GraphQLObjectType({
 		owner: {
 			type: UserParentType,
 			resolve(parentValue) {
-				console.log(parentValue);
 				return db('users')
 					.join('depots', 'depots.owner_id', '=', 'users.id')
 					.select()

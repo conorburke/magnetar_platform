@@ -6,7 +6,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-import GroupIcon from '@material-ui/icons/Group';
 import HelpIcon from '@material-ui/icons/Help';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';

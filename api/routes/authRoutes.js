@@ -81,7 +81,6 @@ const handleRegister = (req, res, db, bcrypt) => {
 
 const verifyToken = (req, res) => {
 	const { authorization } = req.headers;
-	console.log(authorization);
 	jwt.verify(authorization, process.env.JWT_SECRET, err => {
 		if (!err) {
 			res.status(200).send('authorized');

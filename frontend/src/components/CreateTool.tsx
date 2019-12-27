@@ -12,6 +12,7 @@ import Select from '@material-ui/core/Select';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 
+import Camera from './Camera';
 import url from '../utils';
 
 const categories = [
@@ -48,6 +49,9 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2)
   },
+  cameraButton: {
+    margin: theme.spacing(1)
+  },
   error: {
     backgroundColor: 'red',
     opacity: 0.7,
@@ -80,14 +84,13 @@ const CreateTool: React.FC = () => {
   const [price, setPrice] = React.useState(0);
   const [depot, setDepot] = React.useState(0);
   const [updated, setUpdated] = React.useState(false);
+  const [isCameraOpen, setIsCameraOpen] = React.useState(false);
+  const [cardImage, setCardImage] = React.useState();
 
   const classes = useStyles();
   const inputLabel = React.useRef<HTMLLabelElement>(null);
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  // React.useEffect(() => {
-  //   setLabelWidth(inputLabel.current!.offsetWidth);
-  // }, []);
 
+  const profileId = useSelector((state: any) => state.profile.id);
   const depotList = useSelector((state: any) => state.profile.depots);
 
   const handleTitleChange = React.useCallback(e => {
@@ -123,12 +126,24 @@ const CreateTool: React.FC = () => {
           depot_id: depot
         }
       })
-      .then(() => {
+      .then((res: any) => {
+        let bodyFormData = new FormData();
+        const currentDate = Date.now();
+        const imageFile = new File(
+          [cardImage],
+          `${currentDate}_tool_for_user_${profileId}.png`
+        );
+        bodyFormData.append('image', imageFile);
+        bodyFormData.append('depotId', depot.toString());
+        axios({
+          method: 'post',
+          url: `${url.api}/createtoolpicture`,
+          data: bodyFormData,
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }).then((res: any) => res);
         setUpdated(true);
       })
-      .catch((err: any) => {
-        console.log('update profile error', err);
-      });
+      .catch((err: any) => console.log('update profile error', err));
   };
 
   if (updated) {
@@ -144,6 +159,7 @@ const CreateTool: React.FC = () => {
       </div>
     );
   }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -181,7 +197,6 @@ const CreateTool: React.FC = () => {
               native
               value={category}
               onChange={handleCategoryChange}
-              labelWidth={labelWidth}
               required
             >
               <option value="" />
@@ -194,6 +209,34 @@ const CreateTool: React.FC = () => {
               })}
             </Select>
           </FormControl>
+          {isCameraOpen ? (
+            <Camera
+              onCapture={(blob: any) => setCardImage(blob)}
+              onClear={() => setCardImage(false)}
+            />
+          ) : null}
+          {!isCameraOpen ? (
+            <Button
+              onClick={() => setIsCameraOpen(true)}
+              variant="contained"
+              color="primary"
+              className={classes.cameraButton}
+            >
+              Open Camera
+            </Button>
+          ) : (
+            <Button
+              onClick={() => {
+                setIsCameraOpen(false);
+                setCardImage(false);
+              }}
+              variant="contained"
+              color="primary"
+              className={classes.cameraButton}
+            >
+              Close Camera
+            </Button>
+          )}
           <Typography variant="h6" component="h6" gutterBottom>
             Description
           </Typography>
@@ -234,12 +277,7 @@ const CreateTool: React.FC = () => {
             <InputLabel ref={inputLabel} htmlFor="outlined-age-native-simple">
               Depot
             </InputLabel>
-            <Select
-              native
-              value={depot}
-              onChange={handleDepotChange}
-              labelWidth={labelWidth}
-            >
+            <Select native value={depot} onChange={handleDepotChange}>
               <option value="" />
               {depotList ? (
                 depotList.map((d: depotMicro) => {
