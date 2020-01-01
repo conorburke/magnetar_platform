@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -14,6 +14,7 @@ import { Redirect } from 'react-router-dom';
 
 import Camera from './Camera';
 import url from '../utils';
+import { fetchProfile } from '../actions';
 
 const categories = [
   'Power Tools',
@@ -93,6 +94,8 @@ const CreateTool: React.FC = () => {
   const profileId = useSelector((state: any) => state.profile.id);
   const depotList = useSelector((state: any) => state.profile.depots);
 
+  const dispatch = useDispatch();
+
   const handleTitleChange = React.useCallback(e => {
     setTitle(e.target.value);
   }, []);
@@ -141,6 +144,7 @@ const CreateTool: React.FC = () => {
           data: bodyFormData,
           headers: { 'Content-Type': 'multipart/form-data' }
         }).then((res: any) => res);
+        dispatch(fetchProfile(profileId));
         setUpdated(true);
       })
       .catch((err: any) => console.log('update profile error', err));

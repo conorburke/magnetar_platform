@@ -57,7 +57,7 @@ const Tools: React.FC<ToolsProps> = props => {
         <TextField
           id="outlined-basic"
           variant="outlined"
-          label="Select Type"
+          label="Keyword Search"
           value={toolType}
           onChange={handleSetToolTypeChange}
         />

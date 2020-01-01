@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
@@ -7,10 +9,22 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 import { tool } from '../types';
 import clawHammer from '../images/claw_hammer.jpg';
 import sawzall from '../images/sawzall.jpg';
+import url from '../utils';
+import { ToolCardProps } from './ToolCard';
+import { fetchProfile } from '../actions';
+
+const deleteTool = `
+  mutation DeleteTool($id: ID) {
+    deleteTool(id: $id) {
+      id
+    }
+  }
+`;
 
 const useStyles = makeStyles({
   card: {
@@ -19,15 +33,40 @@ const useStyles = makeStyles({
     margin: 20,
     border: '2px solid whitesmoke',
     borderRadius: '10px'
+  },
+  delete: {
+    color: 'red'
   }
 });
 
-export interface ToolCardProps {
-  data: tool;
+interface MyToolCardProps extends ToolCardProps {
+  profileId: string | number;
 }
 
-const ToolCard: React.FC<ToolCardProps> = ({ data }: { data: tool }) => {
+const MyToolCard: React.FC<MyToolCardProps> = ({
+  data,
+  profileId
+}: {
+  data: tool;
+  profileId: string | number;
+}) => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  function handleDelete(id: string | number, title: string) {
+    axios
+      .post(`${url.api}/oracle`, {
+        query: deleteTool,
+        variables: {
+          id
+        }
+      })
+      .then((res: any) => {
+        alert(`Deleted Tool: ${title}`);
+        dispatch(fetchProfile(profileId));
+      });
+  }
 
   return (
     <Card className={`${classes.card} project-card`}>
@@ -60,13 +99,23 @@ const ToolCard: React.FC<ToolCardProps> = ({ data }: { data: tool }) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Details
-        </Button>
-      </CardActions>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <CardActions>
+          <Button size="small" color="primary">
+            Details
+          </Button>
+        </CardActions>
+        <CardActions>
+          <Button
+            size="small"
+            onClick={handleDelete.bind(data, data.id, data.title)}
+          >
+            <DeleteForeverIcon className={classes.delete} />
+          </Button>
+        </CardActions>
+      </div>
     </Card>
   );
 };
 
-export default ToolCard;
+export default MyToolCard;

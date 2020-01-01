@@ -51,8 +51,6 @@ const App: React.FC = () => {
     }
   }
 
-  console.log('app signedIn', signedIn);
-
   return (
     <div className="App">
       <MuiThemeProvider theme={theme}>

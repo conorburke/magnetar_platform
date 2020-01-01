@@ -107,7 +107,6 @@ const Home: React.FC = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
           localStorage.setItem('magnetar_id', data.id);
@@ -142,7 +141,6 @@ const Home: React.FC = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
           localStorage.setItem('magnetar_id', data.id);
@@ -209,8 +207,6 @@ const Home: React.FC = () => {
     axios
       .post(`${url.api}/verify`, token, { headers: { Authorization: token } })
       .then(res => {
-        console.log(res);
-        console.log(res.status);
         if (res.status === 200) {
           setSignedIn(true);
         }

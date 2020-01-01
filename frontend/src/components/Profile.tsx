@@ -24,7 +24,6 @@ const Profile: React.FC = () => {
   const classes = useStyles();
 
   const profile = useSelector((state: any) => state.profile);
-  console.log('profile', profile);
   return (
     <div>
       {profile ? (

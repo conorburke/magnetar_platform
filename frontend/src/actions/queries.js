@@ -106,8 +106,11 @@ export const profileQuery = `
         id
         address_1
         address_2
+        city
+        region
         zipcode
         tools {
+          id
           title
           category
           description

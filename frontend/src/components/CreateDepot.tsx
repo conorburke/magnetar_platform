@@ -139,7 +139,6 @@ const CreateDepot: React.FC = () => {
   // };
 
   const profile = useSelector((state: any) => state.profile);
-  console.log(profile);
 
   const handleAddress1Change = React.useCallback(e => {
     setAddress1(e.target.value);
