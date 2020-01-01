@@ -130,7 +130,6 @@ export const deleteTool = id => {
 };
 
 export const createProfile = profile => {
-  console.log('token 3', profile);
   return function(dispatch) {
     // AsyncStorage.setItem('auth_token', profile.token.toString());
     dispatch({ type: CREATE_PROFILE, payload: profile });

@@ -8,7 +8,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -20,6 +19,7 @@ import { useDispatch } from 'react-redux';
 import { authorizeUser } from '../actions';
 import url from '../utils';
 import Copyright from './Copyright';
+import icon from '../images/blacksmith.png';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -31,6 +31,12 @@ const useStyles = makeStyles(theme => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
+  },
+  icon: {
+    width: theme.spacing(13),
+    height: theme.spacing(13),
+    border: '1px solid black',
+    padding: '1%'
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -101,11 +107,12 @@ const Home: React.FC = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
+          localStorage.setItem('magnetar_id', data.id);
         } else {
           sessionStorage.setItem('magnetar_token', data.token);
+          sessionStorage.setItem('magnetar_id', data.id);
         }
         handleSetRegisteredChange();
         dispatch(authorizeUser());
@@ -134,11 +141,12 @@ const Home: React.FC = () => {
         }
       )
       .then(({ data }) => {
-        console.log(data);
         if (rememberMe) {
           localStorage.setItem('magnetar_token', data.token);
+          localStorage.setItem('magnetar_id', data.id);
         } else {
           sessionStorage.setItem('magnetar_token', data.token);
+          sessionStorage.setItem('magnetar_id', data.id);
         }
         handleSetSignedInChange();
         dispatch(authorizeUser());
@@ -199,8 +207,6 @@ const Home: React.FC = () => {
     axios
       .post(`${url.api}/verify`, token, { headers: { Authorization: token } })
       .then(res => {
-        console.log(res);
-        console.log(res.status);
         if (res.status === 200) {
           setSignedIn(true);
         }
@@ -216,9 +222,10 @@ const Home: React.FC = () => {
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
+        {/* <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
-        </Avatar>
+        </Avatar> */}
+        <Avatar alt="icon" src={icon} className={classes.icon} />
         {exists ? (
           <Typography component="h1" variant="h5">
             Sign In

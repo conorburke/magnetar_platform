@@ -106,8 +106,11 @@ export const profileQuery = `
         id
         address_1
         address_2
+        city
+        region
         zipcode
         tools {
+          id
           title
           category
           description
@@ -140,6 +143,14 @@ export const profileQuery = `
         }
         start_date
         end_date
+      }
+      clientRatings {
+        id
+        rating
+      }
+      sellerRatings {
+        id
+        rating
       }
     }
   }
